@@ -2944,7 +2944,7 @@ function Library:CreateWindow(...)
 		BackgroundColor3 = Library.BackgroundColor;
 		BorderSizePixel = 0;
 		Position = Config.Position,
-		Size = UDim2.new(0.5, 0, 0.7, 0),
+		Size = UDim2.new(0.5, 0, 0, 600),
 		Visible = true;
 		ZIndex = 1;
 		Name = "Main";
