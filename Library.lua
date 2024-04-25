@@ -2928,7 +2928,7 @@ function Library:CreateWindow(...)
 	if type(Config.MenuFadeTime) ~= 'number' then Config.MenuFadeTime = 0.2 end
 
 	if typeof(Config.Position) ~= 'UDim2' then Config.Position = UDim2.fromOffset(175, 50) end
-	if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(550, 600) end
+	if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(350, 600) end
 
 	if Config.Center then
 		Config.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -2944,7 +2944,7 @@ function Library:CreateWindow(...)
 		BackgroundColor3 = Library.BackgroundColor;
 		BorderSizePixel = 0;
 		Position = Config.Position,
-		Size = UDim2.new(0.5, 0, 0, 400),
+		Size = UDim2.new(0.5, 0, 0.7, 0),
 		Visible = true;
 		ZIndex = 1;
 		Name = "Main";
