@@ -139,13 +139,6 @@ end
 
 function Library:ApplyTextStroke(Inst)
 	Inst.TextStrokeTransparency = 1
-
-	Library:Create('UIStroke', {
-		Color = Color3.new(0, 0, 0);
-		Thickness = 1;
-		LineJoinMode = Enum.LineJoinMode.Miter;
-		Parent = Inst;
-	})
 end
 
 function Library:CreateLabel(Properties, IsHud)
@@ -154,7 +147,7 @@ function Library:CreateLabel(Properties, IsHud)
 		Font = Library.Font;
 		TextColor3 = Library.FontColor;
 		TextSize = 16;
-		TextStrokeTransparency = 0;
+		TextStrokeTransparency = 1;
 	})
 
 	Library:ApplyTextStroke(_Instance)
@@ -167,32 +160,34 @@ function Library:CreateLabel(Properties, IsHud)
 end
 
 function Library:MakeDraggable(Instance, Cutoff)
-	Instance.Active = true
+	Instance.Active = true;
 
 	Instance.InputBegan:Connect(function(Input)
 		if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+			local MousePos = UIS:GetMouseLocation()
+			
 			local ObjPos = Vector2.new(
-				Mouse.X - Instance.AbsolutePosition.X,
-				Mouse.Y - Instance.AbsolutePosition.Y
-			)
+				MousePos.X - Instance.AbsolutePosition.X,
+				MousePos.Y - Instance.AbsolutePosition.Y
+			);
 
 			if ObjPos.Y > (Cutoff or 40) then
-				return
-			end
+				return;
+			end;
 
 			while UIS:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
 				Instance.Position = UDim2.new(
 					0,
-					Mouse.X - ObjPos.X + (Instance.Size.X.Offset * Instance.AnchorPoint.X),
+					MousePos.X - ObjPos.X + (Instance.Size.X.Offset * Instance.AnchorPoint.X),
 					0,
-					Mouse.Y - ObjPos.Y + (Instance.Size.Y.Offset * Instance.AnchorPoint.Y)
-				)
+					MousePos.Y - ObjPos.Y + (Instance.Size.Y.Offset * Instance.AnchorPoint.Y)
+				);
 
-				RenderStepped:Wait()
-			end
-		end
+				RenderStepped:Wait();
+			end;
+		end;
 	end)
-end
+end;
 
 function Library:AddToolTip(InfoStr, HoverInstance)
 	local X, Y = Library:GetTextBounds(InfoStr, Library.Font, 14)
@@ -429,6 +424,7 @@ do
 			BackgroundColor3 = ColorPicker.Value;
 			BorderColor3 = Library:GetDarkerColor(ColorPicker.Value);
 			BorderMode = Enum.BorderMode.Inset;
+			BorderSizePixel = 0;
 			Size = UDim2.new(0, 28, 0, 14);
 			ZIndex = 6;
 			Parent = ToggleLabel;
@@ -468,6 +464,7 @@ do
 			BackgroundColor3 = Library.BackgroundColor;
 			BorderColor3 = Library.OutlineColor;
 			BorderMode = Enum.BorderMode.Inset;
+			BorderSizePixel = 0;
 			Size = UDim2.new(1, 0, 1, 0);
 			ZIndex = 16;
 			Parent = PickerFrameOuter;
@@ -493,6 +490,7 @@ do
 			BackgroundColor3 = Library.BackgroundColor;
 			BorderColor3 = Library.OutlineColor;
 			BorderMode = Enum.BorderMode.Inset;
+			BorderSizePixel = 0;
 			Size = UDim2.new(1, 0, 1, 0);
 			ZIndex = 18;
 			Parent = SatVibMapOuter;
@@ -562,6 +560,7 @@ do
 			BackgroundColor3 = Library.MainColor;
 			BorderColor3 = Library.OutlineColor;
 			BorderMode = Enum.BorderMode.Inset;
+			BorderSizePixel = 0;
 			Size = UDim2.new(1, 0, 1, 0);
 			ZIndex = 18,
 			Parent = HueBoxOuter;
@@ -621,6 +620,7 @@ do
 				BackgroundColor3 = ColorPicker.Value;
 				BorderColor3 = Library.OutlineColor;
 				BorderMode = Enum.BorderMode.Inset;
+				BorderSizePixel = 0;
 				Size = UDim2.new(1, 0, 1, 0);
 				ZIndex = 19;
 				Parent = TransparencyBoxOuter;
@@ -673,6 +673,7 @@ do
 				BackgroundColor3 = Library.BackgroundColor;
 				BorderColor3 = Library.OutlineColor;
 				BorderMode = Enum.BorderMode.Inset;
+				BorderSizePixel = 0;
 				Size = UDim2.fromScale(1, 1);
 				ZIndex = 15;
 				Parent = ContextMenu.Container;
@@ -1025,6 +1026,7 @@ do
 			BackgroundColor3 = Library.BackgroundColor;
 			BorderColor3 = Library.OutlineColor;
 			BorderMode = Enum.BorderMode.Inset;
+			BorderSizePixel = 0;
 			Size = UDim2.new(1, 0, 1, 0);
 			ZIndex = 7;
 			Parent = PickOuter;
@@ -1061,6 +1063,7 @@ do
 			BackgroundColor3 = Library.BackgroundColor;
 			BorderColor3 = Library.OutlineColor;
 			BorderMode = Enum.BorderMode.Inset;
+			BorderSizePixel = 0;
 			Size = UDim2.new(1, 0, 1, 0);
 			ZIndex = 15;
 			Parent = ModeSelectOuter;
@@ -1427,6 +1430,7 @@ do
 				BackgroundColor3 = Library.MainColor;
 				BorderColor3 = Library.OutlineColor;
 				BorderMode = Enum.BorderMode.Inset;
+				BorderSizePixel = 0;
 				Size = UDim2.new(1, 0, 1, 0);
 				ZIndex = 6;
 				Parent = Outer;
@@ -1600,6 +1604,7 @@ do
 			BackgroundColor3 = Library.MainColor;
 			BorderColor3 = Library.OutlineColor;
 			BorderMode = Enum.BorderMode.Inset;
+			BorderSizePixel = 0;
 			Size = UDim2.new(1, 0, 1, 0);
 			ZIndex = 6;
 			Parent = DividerOuter;
@@ -1655,6 +1660,7 @@ do
 			BackgroundColor3 = Library.MainColor;
 			BorderColor3 = Library.OutlineColor;
 			BorderMode = Enum.BorderMode.Inset;
+			BorderSizePixel = 0;
 			Size = UDim2.new(1, 0, 1, 0);
 			ZIndex = 6;
 			Parent = TextBoxOuter;
@@ -1989,6 +1995,7 @@ do
 			BackgroundColor3 = Library.MainColor;
 			BorderColor3 = Library.OutlineColor;
 			BorderMode = Enum.BorderMode.Inset;
+			BorderSizePixel = 0;
 			Size = UDim2.new(1, 0, 1, 0);
 			ZIndex = 6;
 			Parent = SliderOuter;
@@ -1996,7 +2003,7 @@ do
 
 		Library:AddToRegistry(SliderInner, {
 			BackgroundColor3 = 'MainColor';
-			BorderColor3 = 'OutlineColor';
+			BorderColor3 = 'Black';
 		});
 
 		local Fill = Library:Create('Frame', {
@@ -2201,6 +2208,7 @@ do
 			BackgroundColor3 = Library.MainColor;
 			BorderColor3 = Library.OutlineColor;
 			BorderMode = Enum.BorderMode.Inset;
+			BorderSizePixel = 0;
 			Size = UDim2.new(1, 0, 1, 0);
 			ZIndex = 6;
 			Parent = DropdownOuter;
@@ -2277,6 +2285,7 @@ do
 			BackgroundColor3 = Library.MainColor;
 			BorderColor3 = Library.OutlineColor;
 			BorderMode = Enum.BorderMode.Inset;
+			BorderSizePixel = 0;
 			BorderSizePixel = 0;
 			Size = UDim2.new(1, 0, 1, 0);
 			ZIndex = 21;
@@ -2368,6 +2377,7 @@ do
 					BackgroundColor3 = Library.MainColor;
 					BorderColor3 = Library.OutlineColor;
 					BorderMode = Enum.BorderMode.Middle;
+					BorderSizePixel = 0;
 					Size = UDim2.new(1, -1, 0, 20);
 					ZIndex = 23;
 					Active = true,
@@ -2695,6 +2705,7 @@ do
 		BackgroundColor3 = Library.MainColor;
 		BorderColor3 = Library.AccentColor;
 		BorderMode = Enum.BorderMode.Inset;
+		BorderSizePixel = 0;
 		Size = UDim2.new(1, 0, 1, 0);
 		ZIndex = 201;
 		Parent = WatermarkOuter;
@@ -2744,8 +2755,6 @@ do
 	Library.WatermarkText = WatermarkLabel;
 	Library:MakeDraggable(Library.Watermark);
 
-
-
 	local KeybindOuter = Library:Create('Frame', {
 		AnchorPoint = Vector2.new(0, 0.5);
 		BorderColor3 = Color3.new(0, 0, 0);
@@ -2760,6 +2769,7 @@ do
 		BackgroundColor3 = Library.MainColor;
 		BorderColor3 = Library.OutlineColor;
 		BorderMode = Enum.BorderMode.Inset;
+		BorderSizePixel = 0;
 		Size = UDim2.new(1, 0, 1, 0);
 		ZIndex = 101;
 		Parent = KeybindOuter;
@@ -2845,7 +2855,8 @@ function Library:Notify(Text, Time)
 	local NotifyInner = Library:Create('Frame', {
 		BackgroundColor3 = Library.MainColor;
 		BorderColor3 = Library.OutlineColor;
-		BorderMode = Enum.BorderMode.Inset;
+		BorderMode = Enum.BorderMode.None;
+		BorderSizePixel = 0;
 		Size = UDim2.new(1, 0, 1, 0);
 		ZIndex = 101;
 		Parent = NotifyOuter;
@@ -3277,6 +3288,7 @@ function Library:CreateWindow(...)
 				BackgroundColor3 = Library.BackgroundColor;
 				BorderColor3 = Library.OutlineColor;
 				BorderMode = Enum.BorderMode.Inset;
+				BorderSizePixel = 0;
 				Size = UDim2.new(1, 0, 0, 0);
 				ZIndex = 2;
 				Parent = Info.Side == 1 and LeftSide or RightSide;
@@ -3291,6 +3303,7 @@ function Library:CreateWindow(...)
 				BackgroundColor3 = Library.BackgroundColor;
 				BorderColor3 = Color3.new(0, 0, 0);
 				-- BorderMode = Enum.BorderMode.Inset;
+				BorderSizePixel = 0;
 				Size = UDim2.new(1, -2, 1, -2);
 				Position = UDim2.new(0, 1, 0, 1);
 				ZIndex = 4;
