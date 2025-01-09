@@ -167,34 +167,32 @@ function Library:CreateLabel(Properties, IsHud)
 end
 
 function Library:MakeDraggable(Instance, Cutoff)
-	Instance.Active = true;
+	Instance.Active = true
 
 	Instance.InputBegan:Connect(function(Input)
 		if Input.UserInputType == Enum.UserInputType.MouseButton1 then
-			local MousePos = UIS:GetMouseLocation()
-			
 			local ObjPos = Vector2.new(
-				MousePos.X - Instance.AbsolutePosition.X,
-				MousePos.Y - Instance.AbsolutePosition.Y
-			);
+				Mouse.X - Instance.AbsolutePosition.X,
+				Mouse.Y - Instance.AbsolutePosition.Y
+			)
 
 			if ObjPos.Y > (Cutoff or 40) then
-				return;
-			end;
+				return
+			end
 
 			while UIS:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
 				Instance.Position = UDim2.new(
 					0,
-					MousePos.X - ObjPos.X + (Instance.Size.X.Offset * Instance.AnchorPoint.X),
+					Mouse.X - ObjPos.X + (Instance.Size.X.Offset * Instance.AnchorPoint.X),
 					0,
-					MousePos.Y - ObjPos.Y + (Instance.Size.Y.Offset * Instance.AnchorPoint.Y)
-				);
+					Mouse.Y - ObjPos.Y + (Instance.Size.Y.Offset * Instance.AnchorPoint.Y)
+				)
 
-				RenderStepped:Wait();
-			end;
-		end;
+				RenderStepped:Wait()
+			end
+		end
 	end)
-end;
+end
 
 function Library:AddToolTip(InfoStr, HoverInstance)
 	local X, Y = Library:GetTextBounds(InfoStr, Library.Font, 14)
@@ -2745,6 +2743,8 @@ do
 	Library.Watermark = WatermarkOuter;
 	Library.WatermarkText = WatermarkLabel;
 	Library:MakeDraggable(Library.Watermark);
+
+
 
 	local KeybindOuter = Library:Create('Frame', {
 		AnchorPoint = Vector2.new(0, 0.5);
