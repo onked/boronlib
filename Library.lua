@@ -183,9 +183,9 @@ function Library:MakeDraggable(Instance, Cutoff)
 			while UIS:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
 				Instance.Position = UDim2.new(
 					0,
-					Mouse.X - ObjPos.X,
+					Mouse.X - ObjPos.X + (Instance.Size.X.Offset * Instance.AnchorPoint.X),
 					0,
-					Mouse.Y - ObjPos.Y
+					Mouse.Y - ObjPos.Y + (Instance.Size.Y.Offset * Instance.AnchorPoint.Y)
 				);
 
 				RenderStepped:Wait()
