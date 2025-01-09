@@ -1877,10 +1877,10 @@ do
 
 		function Toggle:Display()
 			ToggleInner.BackgroundColor3 = Toggle.Value and Library.AccentColor or Library.MainColor;
-			ToggleInner.BorderColor3 = Toggle.Value and Library.AccentColorDark or Library.OutlineColor;
+			ToggleInner.BorderColor3 = Toggle.Value and Library.OutlineColor or Library.OutlineColor;
 
 			Library.RegistryMap[ToggleInner].Properties.BackgroundColor3 = Toggle.Value and 'AccentColor' or 'MainColor';
-			Library.RegistryMap[ToggleInner].Properties.BorderColor3 = Toggle.Value and 'AccentColorDark' or 'OutlineColor';
+			Library.RegistryMap[ToggleInner].Properties.BorderColor3 = Toggle.Value and 'OutlineColor' or 'OutlineColor';
 		end;
 
 		function Toggle:OnChanged(Func)
@@ -1946,7 +1946,7 @@ do
 			Min = Info.Min;
 			Max = Info.Max;
 			Rounding = Info.Rounding;
-			MaxSize = 200;
+			MaxSize = 205;
 			Type = 'Slider';
 			Callback = Info.Callback or function(Value) end;
 		};
