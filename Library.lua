@@ -1460,7 +1460,7 @@ do
 
 			Library:OnHighlight(Outer, Outer,
 				{ BorderColor3 = 'AccentColor' },
-				{ BorderColor3 = 'Black' }
+				{ BorderColor3 = 'OutlineColor' }
 			);
 
 			return Outer, Inner, Label
@@ -1667,7 +1667,7 @@ do
 
 		Library:OnHighlight(TextBoxOuter, TextBoxOuter,
 			{ BorderColor3 = 'AccentColor' },
-			{ BorderColor3 = 'Black' }
+			{ BorderColor3 = 'OutlineColor' }
 		);
 
 		if type(Info.Tooltip) == 'string' then
@@ -1864,7 +1864,7 @@ do
 
 		Library:OnHighlight(ToggleRegion, ToggleOuter,
 			{ BorderColor3 = 'AccentColor' },
-			{ BorderColor3 = 'Black' }
+			{ BorderColor3 = 'OutlineColor' }
 		);
 
 		function Toggle:UpdateColors()
@@ -1946,7 +1946,7 @@ do
 			Min = Info.Min;
 			Max = Info.Max;
 			Rounding = Info.Rounding;
-			MaxSize = 205;
+			MaxSize = 206;
 			Type = 'Slider';
 			Callback = Info.Callback or function(Value) end;
 		};
@@ -2238,7 +2238,7 @@ do
 
 		Library:OnHighlight(DropdownOuter, DropdownOuter,
 			{ BorderColor3 = 'AccentColor' },
-			{ BorderColor3 = 'Black' }
+			{ BorderColor3 = 'OutlineColor' }
 		);
 
 		if type(Info.Tooltip) == 'string' then
