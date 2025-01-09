@@ -166,55 +166,18 @@ function Library:CreateLabel(Properties, IsHud)
 	return Library:Create(_Instance, Properties)
 end
 
-local dragging
-local dragInput
-local dragStart
-local startPos
+local draggingUI
+local draggingWatermark
+local draggingKeybindHolder
 
 function Lerp(a, b, m)
 	return a + (b - a) * m
 end;
 
-local lastMousePos
-local lastGoalPos
-local DRAG_SPEED = (8); -- // The speed of the UI darg.
-function Update(dt, frame)
-	if not (startPos) then return end;
-	if not (dragging) and (lastGoalPos) then
-		frame.Position = UDim2.new(startPos.X.Scale, Lerp(frame.Position.X.Offset, lastGoalPos.X.Offset, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(frame.Position.Y.Offset, lastGoalPos.Y.Offset, dt * DRAG_SPEED))
-		return 
-	end;
-
-	local delta = (lastMousePos - UIS:GetMouseLocation())
-	local xGoal = (startPos.X.Offset - delta.X);
-	local yGoal = (startPos.Y.Offset - delta.Y);
-	lastGoalPos = UDim2.new(startPos.X.Scale, xGoal, startPos.Y.Scale, yGoal)
-	frame.Position = UDim2.new(startPos.X.Scale, Lerp(frame.Position.X.Offset, xGoal, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(frame.Position.Y.Offset, yGoal, dt * DRAG_SPEED))
-end;
+local DRAG_SPEED = (8);
 
 function Library:MakeDraggable(Instance, Cutoff)
 	Instance.Active = true
-	
-	task.spawn(function()
-		RunService.RenderStepped:Connect(function(dt)
-			Update(dt, Instance)
-		end)
-	end)
-
-	Instance.InputBegan:Connect(function(Input)
-		if Input.UserInputType == Enum.UserInputType.MouseButton1 then
-			dragging = true
-			dragStart = Input.Position
-			startPos = Instance.Position
-			lastMousePos = UIS:GetMouseLocation()
-			
-			Input.Changed:Connect(function()
-				if Input.UserInputState == Enum.UserInputState.End then
-					dragging = false
-				end
-			end)
-		end
-	end)
 end
 
 function Library:AddToolTip(InfoStr, HoverInstance)
@@ -2766,8 +2729,42 @@ do
 	Library.Watermark = WatermarkOuter;
 	Library.WatermarkText = WatermarkLabel;
 	Library:MakeDraggable(Library.Watermark);
+	
+	do
+		local dragWatermarkStart
+		local dragWatermarkStartPos
+		local watermarkLastMousePos
+		local watermarkLastGoalPos
 
+		Library:GiveSignal(RunService.Heartbeat:Connect(function(dt)
+			if not (dragWatermarkStartPos) then return end;
+			if not (draggingWatermark) and (watermarkLastGoalPos) then
+				WatermarkOuter.Position = UDim2.new(dragWatermarkStartPos.X.Scale, Lerp(WatermarkOuter.Position.X.Offset, watermarkLastGoalPos.X.Offset, dt * DRAG_SPEED), dragWatermarkStartPos.Y.Scale, Lerp(WatermarkOuter.Position.Y.Offset, watermarkLastGoalPos.Y.Offset, dt * DRAG_SPEED))
+				return 
+			end;
 
+			local delta = (watermarkLastMousePos - UIS:GetMouseLocation())
+			local xGoal = (dragWatermarkStartPos.X.Offset - delta.X);
+			local yGoal = (dragWatermarkStartPos.Y.Offset - delta.Y);
+			watermarkLastGoalPos = UDim2.new(dragWatermarkStartPos.X.Scale, xGoal, dragWatermarkStartPos.Y.Scale, yGoal)
+			WatermarkOuter.Position = UDim2.new(dragWatermarkStartPos.X.Scale, Lerp(WatermarkOuter.Position.X.Offset, xGoal, dt * DRAG_SPEED), dragWatermarkStartPos.Y.Scale, Lerp(WatermarkOuter.Position.Y.Offset, yGoal, dt * DRAG_SPEED))
+		end))
+
+		Library:GiveSignal(WatermarkOuter.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				draggingWatermark = true
+				dragWatermarkStart = input.Position
+				dragWatermarkStartPos = Instance.Position
+				watermarkLastMousePos = UIS:GetMouseLocation()
+
+				input.Changed:Connect(function()
+					if input.UserInputState == Enum.UserInputState.End then
+						draggingWatermark = false
+					end
+				end)
+			end
+		end))
+	end
 
 	local KeybindOuter = Library:Create('Frame', {
 		AnchorPoint = Vector2.new(0, 0.5);
@@ -2837,6 +2834,42 @@ do
 	Library.KeybindFrame = KeybindOuter;
 	Library.KeybindContainer = KeybindContainer;
 	Library:MakeDraggable(KeybindOuter);
+	
+	do
+		local dragKeybindStart
+		local dragKeybindStartPos
+		local keybindLastMousePos
+		local keybindLastGoalPos
+
+		Library:GiveSignal(RunService.Heartbeat:Connect(function(dt)
+			if not (dragKeybindStartPos) then return end;
+			if not (draggingKeybindHolder) and (keybindLastGoalPos) then
+				KeybindOuter.Position = UDim2.new(dragKeybindStartPos.X.Scale, Lerp(KeybindOuter.Position.X.Offset, keybindLastGoalPos.X.Offset, dt * DRAG_SPEED), dragKeybindStartPos.Y.Scale, Lerp(KeybindOuter.Position.Y.Offset, keybindLastGoalPos.Y.Offset, dt * DRAG_SPEED))
+				return 
+			end;
+
+			local delta = (keybindLastMousePos - UIS:GetMouseLocation())
+			local xGoal = (dragKeybindStartPos.X.Offset - delta.X);
+			local yGoal = (dragKeybindStartPos.Y.Offset - delta.Y);
+			keybindLastGoalPos = UDim2.new(dragKeybindStartPos.X.Scale, xGoal, dragKeybindStartPos.Y.Scale, yGoal)
+			KeybindOuter.Position = UDim2.new(dragKeybindStartPos.X.Scale, Lerp(KeybindOuter.Position.X.Offset, xGoal, dt * DRAG_SPEED), dragKeybindStartPos.Y.Scale, Lerp(KeybindOuter.Position.Y.Offset, yGoal, dt * DRAG_SPEED))
+		end))
+
+		Library:GiveSignal(KeybindOuter.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				draggingKeybindHolder = true
+				dragKeybindStart = input.Position
+				dragKeybindStartPos = Instance.Position
+				keybindLastMousePos = UIS:GetMouseLocation()
+
+				input.Changed:Connect(function()
+					if input.UserInputState == Enum.UserInputState.End then
+						draggingKeybindHolder = false
+					end
+				end)
+			end
+		end))
+	end
 end;
 
 function Library:SetWatermarkVisibility(Bool)
@@ -3002,6 +3035,42 @@ function Library:CreateWindow(...)
 	});
 
 	Library:MakeDraggable(Main, 25);
+	
+	do
+		local dragUiStart
+		local dragUiStartPos
+		local uiLastMousePos
+		local uiLastGoalPos
+
+		Library:GiveSignal(RunService.Heartbeat:Connect(function(dt)
+			if not (dragUiStartPos) then return end;
+			if not (draggingUI) and (uiLastGoalPos) then
+				Main.Position = UDim2.new(dragUiStartPos.X.Scale, Lerp(Main.Position.X.Offset, uiLastGoalPos.X.Offset, dt * DRAG_SPEED), dragUiStartPos.Y.Scale, Lerp(Main.Position.Y.Offset, uiLastGoalPos.Y.Offset, dt * DRAG_SPEED))
+				return 
+			end;
+
+			local delta = (uiLastGoalPos - UIS:GetMouseLocation())
+			local xGoal = (dragUiStartPos.X.Offset - delta.X);
+			local yGoal = (dragUiStartPos.Y.Offset - delta.Y);
+			uiLastGoalPos = UDim2.new(dragUiStartPos.X.Scale, xGoal, dragUiStartPos.Y.Scale, yGoal)
+			Main.Position = UDim2.new(dragUiStartPos.X.Scale, Lerp(Main.Position.X.Offset, xGoal, dt * DRAG_SPEED), dragUiStartPos.Y.Scale, Lerp(Main.Position.Y.Offset, yGoal, dt * DRAG_SPEED))
+		end))
+
+		Library:GiveSignal(Main.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				draggingUI = true
+				dragUiStart = input.Position
+				dragUiStartPos = Instance.Position
+				uiLastMousePos = UIS:GetMouseLocation()
+
+				input.Changed:Connect(function()
+					if input.UserInputState == Enum.UserInputState.End then
+						draggingUI = false
+					end
+				end)
+			end
+		end))
+	end
 
 	local Title = Library:CreateLabel({
 		Position = UDim2.new(0.5, 0, 0.02, 0);
