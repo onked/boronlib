@@ -197,7 +197,7 @@ function Library:MakeDraggable(Instance, Cutoff)
 	
 	task.spawn(function()
 		RunService.RenderStepped:Connect(function(dt)
-			Update(Instance, dt)
+			Update(dt, Instance)
 		end)
 	end)
 
