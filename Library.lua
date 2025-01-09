@@ -2721,42 +2721,6 @@ do
 	Library.Watermark = WatermarkOuter;
 	Library.WatermarkText = WatermarkLabel;
 	Library:MakeDraggable(Library.Watermark);
-	
-	do
-		local dragWatermarkStart
-		local dragWatermarkStartPos
-		local watermarkLastMousePos
-		local watermarkLastGoalPos
-
-		Library:GiveSignal(RunService.Heartbeat:Connect(function(dt)
-			if not (dragWatermarkStartPos) then return end;
-			if not (draggingWatermark) and (watermarkLastGoalPos) then
-				WatermarkOuter.Position = UDim2.new(dragWatermarkStartPos.X.Scale, Lerp(WatermarkOuter.Position.X.Offset, watermarkLastGoalPos.X.Offset, dt * DRAG_SPEED), dragWatermarkStartPos.Y.Scale, Lerp(WatermarkOuter.Position.Y.Offset, watermarkLastGoalPos.Y.Offset, dt * DRAG_SPEED))
-				return 
-			end;
-
-			local delta = (watermarkLastMousePos - UIS:GetMouseLocation())
-			local xGoal = (dragWatermarkStartPos.X.Offset - delta.X);
-			local yGoal = (dragWatermarkStartPos.Y.Offset - delta.Y);
-			watermarkLastGoalPos = UDim2.new(dragWatermarkStartPos.X.Scale, xGoal, dragWatermarkStartPos.Y.Scale, yGoal)
-			WatermarkOuter.Position = UDim2.new(dragWatermarkStartPos.X.Scale, Lerp(WatermarkOuter.Position.X.Offset, xGoal, dt * DRAG_SPEED), dragWatermarkStartPos.Y.Scale, Lerp(WatermarkOuter.Position.Y.Offset, yGoal, dt * DRAG_SPEED))
-		end))
-
-		Library:GiveSignal(WatermarkOuter.InputBegan:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.MouseButton1 then
-				draggingWatermark = true
-				dragWatermarkStart = input.Position
-				dragWatermarkStartPos = Instance.Position
-				watermarkLastMousePos = UIS:GetMouseLocation()
-
-				input.Changed:Connect(function()
-					if input.UserInputState == Enum.UserInputState.End then
-						draggingWatermark = false
-					end
-				end)
-			end
-		end))
-	end
 
 	local KeybindOuter = Library:Create('Frame', {
 		AnchorPoint = Vector2.new(0, 0.5);
@@ -2826,42 +2790,6 @@ do
 	Library.KeybindFrame = KeybindOuter;
 	Library.KeybindContainer = KeybindContainer;
 	Library:MakeDraggable(KeybindOuter);
-	
-	do
-		local dragKeybindStart
-		local dragKeybindStartPos
-		local keybindLastMousePos
-		local keybindLastGoalPos
-
-		Library:GiveSignal(RunService.Heartbeat:Connect(function(dt)
-			if not (dragKeybindStartPos) then return end;
-			if not (draggingKeybindHolder) and (keybindLastGoalPos) then
-				KeybindOuter.Position = UDim2.new(dragKeybindStartPos.X.Scale, Lerp(KeybindOuter.Position.X.Offset, keybindLastGoalPos.X.Offset, dt * DRAG_SPEED), dragKeybindStartPos.Y.Scale, Lerp(KeybindOuter.Position.Y.Offset, keybindLastGoalPos.Y.Offset, dt * DRAG_SPEED))
-				return 
-			end;
-
-			local delta = (keybindLastMousePos - UIS:GetMouseLocation())
-			local xGoal = (dragKeybindStartPos.X.Offset - delta.X);
-			local yGoal = (dragKeybindStartPos.Y.Offset - delta.Y);
-			keybindLastGoalPos = UDim2.new(dragKeybindStartPos.X.Scale, xGoal, dragKeybindStartPos.Y.Scale, yGoal)
-			KeybindOuter.Position = UDim2.new(dragKeybindStartPos.X.Scale, Lerp(KeybindOuter.Position.X.Offset, xGoal, dt * DRAG_SPEED), dragKeybindStartPos.Y.Scale, Lerp(KeybindOuter.Position.Y.Offset, yGoal, dt * DRAG_SPEED))
-		end))
-
-		Library:GiveSignal(KeybindOuter.InputBegan:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.MouseButton1 then
-				draggingKeybindHolder = true
-				dragKeybindStart = input.Position
-				dragKeybindStartPos = Instance.Position
-				keybindLastMousePos = UIS:GetMouseLocation()
-
-				input.Changed:Connect(function()
-					if input.UserInputState == Enum.UserInputState.End then
-						draggingKeybindHolder = false
-					end
-				end)
-			end
-		end))
-	end
 end;
 
 function Library:SetWatermarkVisibility(Bool)
