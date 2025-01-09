@@ -48,6 +48,7 @@ local Library = {
 
 	Signals = {};
 	ScreenGui = ScreenGui;
+	
 }
 
 local RainbowStep = 0
@@ -1014,7 +1015,7 @@ do
 
 		local PickOuter = Library:Create('Frame', {
 			BackgroundColor3 = Color3.new(0, 0, 0);
-			BorderColor3 = Color3.new(0, 0, 0);
+			BorderColor3 = Library.OutlineColor;
 			Size = UDim2.new(0, 28, 0, 15);
 			ZIndex = 6;
 			Parent = ToggleLabel;
@@ -1945,7 +1946,7 @@ do
 			Min = Info.Min;
 			Max = Info.Max;
 			Rounding = Info.Rounding;
-			MaxSize = 232;
+			MaxSize = 200;
 			Type = 'Slider';
 			Callback = Info.Callback or function(Value) end;
 		};
