@@ -165,20 +165,23 @@ function Library:MakeDraggable(instance, Cutoff)
 	instance.InputBegan:Connect(function(Input)
 		if Input.UserInputType == Enum.UserInputType.MouseButton1 then
 			local ObjPos = Vector2.new(
-				Mouse.X - Instance.AbsolutePosition.X,
-				Mouse.Y - Instance.AbsolutePosition.Y
+				Mouse.X - instance.AbsolutePosition.X,
+				Mouse.Y - instance.AbsolutePosition.Y
 			);
 
 			if ObjPos.Y > (Cutoff or 40) then
 				return;
 			end;
 			
-			local dragStart = UIS:GetMouseLocation()
 			local startPos = instance.Position
 
 			while UIS:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
-				local delta = UIS:GetMouseLocation() - dragStart
-				instance.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+				instance.Position = UDim2.new(
+					0,
+					Mouse.X - ObjPos.X + (instance.Size.X.Offset * instance.AnchorPoint.X),
+					0,
+					Mouse.Y - ObjPos.Y + (instance.Size.Y.Offset * instance.AnchorPoint.Y)
+				);
 
 				RenderStepped:Wait();
 			end;
@@ -2944,7 +2947,7 @@ function Library:CreateWindow(...)
 	if type(Config.MenuFadeTime) ~= 'number' then Config.MenuFadeTime = 0.2 end
 
 	if typeof(Config.Position) ~= 'UDim2' then Config.Position = UDim2.fromOffset(175, 50) end
-	if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(350, 600) end
+	if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(500, 350) end
 
 	if Config.Center then
 		Config.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -2960,7 +2963,7 @@ function Library:CreateWindow(...)
 		BackgroundColor3 = Library.BackgroundColor;
 		BorderSizePixel = 0;
 		Position = Config.Position,
-		Size = UDim2.new(0.5, 0, 0.7, 0),
+		Size = Config.Size,
 		Visible = true;
 		ZIndex = 1;
 		Name = "Main";
