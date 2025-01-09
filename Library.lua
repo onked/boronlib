@@ -159,9 +159,22 @@ function Library:CreateLabel(Properties, IsHud)
 	return Library:Create(_Instance, Properties)
 end
 
-function Library:MakeDraggable(instance, Cutoff)
-	instance.Active = true;
-	Instance.new("UIDragDetector", instance)
+function Library:MakeDraggable(Instance, Cutoff)
+	Instance.Active = true;
+
+	Instance.InputBegan:Connect(function(Input)
+		if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+			local dragStart = Input.Position
+			local startPos = Instance.Position
+
+			while UIS:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
+				local delta = Input.Position - dragStart
+				Instance.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+
+				RenderStepped:Wait();
+			end;
+		end;
+	end)
 end;
 
 function Library:AddToolTip(InfoStr, HoverInstance)
@@ -402,6 +415,7 @@ do
 			BorderSizePixel = 0;
 			Size = UDim2.new(0, 28, 0, 14);
 			ZIndex = 6;
+			Active = true;
 			Parent = ToggleLabel;
 		});
 
@@ -1932,7 +1946,7 @@ do
 			Min = Info.Min;
 			Max = Info.Max;
 			Rounding = Info.Rounding;
-			MaxSize = 210;
+			MaxSize = 212;
 			Type = 'Slider';
 			Callback = Info.Callback or function(Value) end;
 		};
@@ -2260,7 +2274,6 @@ do
 			BackgroundColor3 = Library.MainColor;
 			BorderColor3 = Library.OutlineColor;
 			BorderMode = Enum.BorderMode.Inset;
-			BorderSizePixel = 0;
 			BorderSizePixel = 0;
 			Size = UDim2.new(1, 0, 1, 0);
 			ZIndex = 21;
@@ -2669,6 +2682,7 @@ do
 
 	local WatermarkOuter = Library:Create('Frame', {
 		BorderColor3 = Color3.new(0, 0, 0);
+		BorderSizePixel = 0;
 		Position = UDim2.new(0, 100, 0, -25);
 		Size = UDim2.new(0, 213, 0, 20);
 		ZIndex = 200;
@@ -2680,7 +2694,6 @@ do
 		BackgroundColor3 = Library.MainColor;
 		BorderColor3 = Library.AccentColor;
 		BorderMode = Enum.BorderMode.Inset;
-		BorderSizePixel = 0;
 		Size = UDim2.new(1, 0, 1, 0);
 		ZIndex = 201;
 		Parent = WatermarkOuter;
@@ -2733,6 +2746,7 @@ do
 	local KeybindOuter = Library:Create('Frame', {
 		AnchorPoint = Vector2.new(0, 0.5);
 		BorderColor3 = Color3.new(0, 0, 0);
+		BorderSizePixel = 0;
 		Position = UDim2.new(0, 10, 0.5, 0);
 		Size = UDim2.new(0, 210, 0, 20);
 		Visible = false;
