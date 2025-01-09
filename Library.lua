@@ -164,11 +164,11 @@ function Library:MakeDraggable(Instance, Cutoff)
 
 	Instance.InputBegan:Connect(function(Input)
 		if Input.UserInputType == Enum.UserInputType.MouseButton1 then
-			local dragStart = Input.Position
+			local dragStart = UIS:GetMouseLocation()
 			local startPos = Instance.Position
 
 			while UIS:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
-				local delta = Input.Position - dragStart
+				local delta = UIS:GetMouseLocation() - dragStart
 				Instance.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 
 				RenderStepped:Wait();
