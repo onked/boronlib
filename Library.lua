@@ -1459,7 +1459,7 @@ do
 
 			Library:AddToRegistry(Inner, {
 				BackgroundColor3 = 'MainColor';
-				BorderColor3 = 'OutlineColor';
+				BorderColor3 = 'Black';
 			});
 
 			Library:OnHighlight(Outer, Outer,
@@ -2753,7 +2753,8 @@ do
 
 	Library.Watermark = WatermarkOuter;
 	Library.WatermarkText = WatermarkLabel;
-	Library:MakeDraggable(Library.Watermark);
+	--Library:MakeDraggable(Library.Watermark);
+	Library.Watermark.Draggable = true
 
 	local KeybindOuter = Library:Create('Frame', {
 		AnchorPoint = Vector2.new(0, 0.5);
@@ -2823,7 +2824,8 @@ do
 
 	Library.KeybindFrame = KeybindOuter;
 	Library.KeybindContainer = KeybindContainer;
-	Library:MakeDraggable(KeybindOuter);
+	--Library:MakeDraggable(KeybindOuter);
+	KeybindOuter.Draggable = true
 end;
 
 function Library:SetWatermarkVisibility(Bool)
@@ -2989,7 +2991,8 @@ function Library:CreateWindow(...)
 		BackgroundColor3 = 'AccentColor';
 	});
 
-	Library:MakeDraggable(Main, 25);
+	--Library:MakeDraggable(Main, 25);
+	Main.Draggable = true
 
 	local Title = Library:CreateLabel({
 		Position = UDim2.new(0.5, 0, 0.02, 0);
