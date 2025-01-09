@@ -159,17 +159,26 @@ function Library:CreateLabel(Properties, IsHud)
 	return Library:Create(_Instance, Properties)
 end
 
-function Library:MakeDraggable(Instance, Cutoff)
-	Instance.Active = true;
+function Library:MakeDraggable(instance, Cutoff)
+	instance.Active = true;
 
-	Instance.InputBegan:Connect(function(Input)
+	instance.InputBegan:Connect(function(Input)
 		if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+			local ObjPos = Vector2.new(
+				Mouse.X - Instance.AbsolutePosition.X,
+				Mouse.Y - Instance.AbsolutePosition.Y
+			);
+
+			if ObjPos.Y > (Cutoff or 40) then
+				return;
+			end;
+			
 			local dragStart = UIS:GetMouseLocation()
-			local startPos = Instance.Position
+			local startPos = instance.Position
 
 			while UIS:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
 				local delta = UIS:GetMouseLocation() - dragStart
-				Instance.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+				instance.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 
 				RenderStepped:Wait();
 			end;
@@ -1946,7 +1955,7 @@ do
 			Min = Info.Min;
 			Max = Info.Max;
 			Rounding = Info.Rounding;
-			MaxSize = 212;
+			MaxSize = 211;
 			Type = 'Slider';
 			Callback = Info.Callback or function(Value) end;
 		};
