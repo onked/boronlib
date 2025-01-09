@@ -166,10 +166,59 @@ function Library:CreateLabel(Properties, IsHud)
 	return Library:Create(_Instance, Properties)
 end
 
-function Library:MakeDraggable(instance, Cutoff)
-	instance.Active = true
-	
-	local uidrag = Instance.new("UIDragDetector", instance)
+function Library:MakeDraggable(Instance, Cutoff)
+	local UIS = game:GetService("UserInputService")
+	local RunService = game:GetService("RunService")
+
+	Instance.Active = true
+
+	Instance.InputBegan:Connect(function(Input)
+		if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+			local Mouse = UIS:GetMouseLocation()
+			local ObjPos = Vector2.new(
+				Mouse.X - Instance.AbsolutePosition.X,
+				Mouse.Y - Instance.AbsolutePosition.Y
+			)
+
+			if ObjPos.Y > (Cutoff or 40) then
+				return
+			end
+
+			local dragging = true
+
+			local function onInputChanged(input)
+				if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
+					local NewMouse = UIS:GetMouseLocation()
+
+					local newX = NewMouse.X - ObjPos.X
+					local newY = NewMouse.Y - ObjPos.Y
+
+					local parent = Instance.Parent
+					if parent:IsA("GuiObject") then
+						local parentAbsSize = parent.AbsoluteSize
+						local parentAbsPos = parent.AbsolutePosition
+
+						newX = math.clamp(newX, parentAbsPos.X, parentAbsPos.X + parentAbsSize.X - Instance.Size.X.Offset)
+						newY = math.clamp(newY, parentAbsPos.Y, parentAbsPos.Y + parentAbsSize.Y - Instance.Size.Y.Offset)
+					end
+
+					Instance.Position = UDim2.new(0, newX + (Instance.Size.X.Offset * Instance.AnchorPoint.X), 0, newY + (Instance.Size.Y.Offset * Instance.AnchorPoint.Y))
+				end
+			end
+
+			local inputChangedConn
+			inputChangedConn = UIS.InputChanged:Connect(onInputChanged)
+
+			local inputEndedConn
+			inputEndedConn = UIS.InputEnded:Connect(function(endInput)
+				if endInput.UserInputType == Enum.UserInputType.MouseButton1 then
+					dragging = false
+					inputChangedConn:Disconnect()
+					inputEndedConn:Disconnect()
+				end
+			end)
+		end
+	end)
 end
 
 function Library:AddToolTip(InfoStr, HoverInstance)
