@@ -181,7 +181,12 @@ function Library:MakeDraggable(Instance, Cutoff)
 			end
 
 			while UIS:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
-				Instance.Position = UDim2.new(0, Input.Position.X, 0, Input.Position.Y)
+				Instance.Position = UDim2.new(
+					0,
+					Mouse.X - ObjPos.X,
+					0,
+					Mouse.Y - ObjPos.Y
+				);
 
 				RenderStepped:Wait()
 			end
