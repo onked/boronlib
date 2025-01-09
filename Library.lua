@@ -1824,6 +1824,10 @@ do
 			ZIndex = 5;
 			Parent = Container;
 		});
+		
+		Library:AddToRegistry(ToggleOuter, {
+			BorderColor3 = 'Black';
+		});
 
 		local ToggleInner = Library:Create('Frame', {
 			BackgroundColor3 = Library.MainColor;
@@ -1835,6 +1839,7 @@ do
 
 		Library:AddToRegistry(ToggleInner, {
 			BackgroundColor3 = 'MainColor';
+			BorderColor3 = 'OutlineColor';
 		});
 
 		local ToggleLabel = Library:CreateLabel({
@@ -1864,7 +1869,7 @@ do
 
 		Library:OnHighlight(ToggleRegion, ToggleOuter,
 			{ BorderColor3 = 'AccentColor' },
-			{ BorderColor3 = 'OutlineColor' }
+			{ BorderColor3 = 'Black' }
 		);
 
 		function Toggle:UpdateColors()
@@ -1946,7 +1951,7 @@ do
 			Min = Info.Min;
 			Max = Info.Max;
 			Rounding = Info.Rounding;
-			MaxSize = 206;
+			MaxSize = 208;
 			Type = 'Slider';
 			Callback = Info.Callback or function(Value) end;
 		};
@@ -2030,7 +2035,7 @@ do
 
 		Library:OnHighlight(SliderOuter, SliderOuter,
 			{ BorderColor3 = 'AccentColor' },
-			{ BorderColor3 = 'Black' }
+			{ BorderColor3 = 'OutlineColor' }
 		);
 
 		if type(Info.Tooltip) == 'string' then
