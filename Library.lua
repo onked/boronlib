@@ -166,18 +166,10 @@ function Library:CreateLabel(Properties, IsHud)
 	return Library:Create(_Instance, Properties)
 end
 
-local draggingUI
-local draggingWatermark
-local draggingKeybindHolder
-
-function Lerp(a, b, m)
-	return a + (b - a) * m
-end;
-
-local DRAG_SPEED = (8);
-
-function Library:MakeDraggable(Instance, Cutoff)
-	Instance.Active = true
+function Library:MakeDraggable(instance, Cutoff)
+	instance.Active = true
+	
+	local uidrag = Instance.new("UIDragDetector", instance)
 end
 
 function Library:AddToolTip(InfoStr, HoverInstance)
@@ -3035,42 +3027,6 @@ function Library:CreateWindow(...)
 	});
 
 	Library:MakeDraggable(Main, 25);
-	
-	do
-		local dragUiStart
-		local dragUiStartPos
-		local uiLastMousePos
-		local uiLastGoalPos
-
-		Library:GiveSignal(RunService.Heartbeat:Connect(function(dt)
-			if not (dragUiStartPos) then return end;
-			if not (draggingUI) and (uiLastGoalPos) then
-				Main.Position = UDim2.new(dragUiStartPos.X.Scale, Lerp(Main.Position.X.Offset, uiLastGoalPos.X.Offset, dt * DRAG_SPEED), dragUiStartPos.Y.Scale, Lerp(Main.Position.Y.Offset, uiLastGoalPos.Y.Offset, dt * DRAG_SPEED))
-				return 
-			end;
-
-			local delta = (uiLastGoalPos - UIS:GetMouseLocation())
-			local xGoal = (dragUiStartPos.X.Offset - delta.X);
-			local yGoal = (dragUiStartPos.Y.Offset - delta.Y);
-			uiLastGoalPos = UDim2.new(dragUiStartPos.X.Scale, xGoal, dragUiStartPos.Y.Scale, yGoal)
-			Main.Position = UDim2.new(dragUiStartPos.X.Scale, Lerp(Main.Position.X.Offset, xGoal, dt * DRAG_SPEED), dragUiStartPos.Y.Scale, Lerp(Main.Position.Y.Offset, yGoal, dt * DRAG_SPEED))
-		end))
-
-		Library:GiveSignal(Main.InputBegan:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.MouseButton1 then
-				draggingUI = true
-				dragUiStart = input.Position
-				dragUiStartPos = Instance.Position
-				uiLastMousePos = UIS:GetMouseLocation()
-
-				input.Changed:Connect(function()
-					if input.UserInputState == Enum.UserInputState.End then
-						draggingUI = false
-					end
-				end)
-			end
-		end))
-	end
 
 	local Title = Library:CreateLabel({
 		Position = UDim2.new(0.5, 0, 0.02, 0);
