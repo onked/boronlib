@@ -2834,6 +2834,7 @@ function Library:Notify(Text, Time)
 
 	local NotifyOuter = Library:Create('Frame', {
 		BorderColor3 = Color3.new(0, 0, 0);
+		BorderSizePixel = 0;
 		Position = UDim2.new(0, 100, 0, 10);
 		Size = UDim2.new(0, 0, 0, YSize);
 		ClipsDescendants = true;
@@ -2845,7 +2846,6 @@ function Library:Notify(Text, Time)
 		BackgroundColor3 = Library.MainColor;
 		BorderColor3 = Library.OutlineColor;
 		BorderMode = Enum.BorderMode.None;
-		BorderSizePixel = 0;
 		Size = UDim2.new(1, 0, 1, 0);
 		ZIndex = 101;
 		Parent = NotifyOuter;
@@ -3023,17 +3023,6 @@ function Library:CreateWindow(...)
 		Parent = TabArea;
 	});
 	
-	local TabStroke = Library:Create('UIStroke', {
-		Color = Library.OutlineColor;
-		Thickness = 1;
-		LineJoinMode = Enum.LineJoinMode.Round;
-		Parent = TabArea;
-	});
-	
-	Library:AddToRegistry(TabStroke, {
-		Color = 'OutlineColor';
-	});
-	
 	Library:AddToRegistry(TabArea, {
 		BackgroundColor3 = 'BackgroundColor2';
 	});
@@ -3048,20 +3037,9 @@ function Library:CreateWindow(...)
 		BorderSizePixel = 0;
 		AnchorPoint = Vector2.new(0.5, 0);
 	});
-	
-	local ContentStroke = Library:Create('UIStroke', {
-		Color = Library.OutlineColor;
-		Thickness = 1;
-		LineJoinMode = Enum.LineJoinMode.Round;
-		Parent = ContentArea;
-	});
 
 	Library:AddToRegistry(ContentArea, {
 		BackgroundColor3 = 'BackgroundColor2';
-	});
-	
-	Library:AddToRegistry(ContentStroke, {
-		Color = 'OutlineColor';
 	});
 	
 	function Window:SetWindowTitle(Title)
@@ -3080,17 +3058,6 @@ function Library:CreateWindow(...)
 			Size = UDim2.new(1, 0, 0.1, 0);
 			ZIndex = 1;
 			Parent = TabArea;
-		});
-		
-		local TabStroke = Library:Create('UIStroke', {
-			Color = Library.OutlineColor;
-			Thickness = 1;
-			LineJoinMode = Enum.LineJoinMode.Round;
-			Parent = TabButton;
-		});
-		
-		Library:AddToRegistry(TabStroke, {
-			Color = 'OutlineColor';
 		});
 
 		Library:AddToRegistry(TabButton, {
