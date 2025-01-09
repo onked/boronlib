@@ -203,15 +203,6 @@ function Library:MakeDraggable(Instance, Cutoff)
 
 	Instance.InputBegan:Connect(function(Input)
 		if Input.UserInputType == Enum.UserInputType.MouseButton1 then
-			local ObjPos = Vector2.new(
-				Mouse.X - Instance.AbsolutePosition.X,
-				Mouse.Y - Instance.AbsolutePosition.Y
-			)
-
-			if ObjPos.Y > (Cutoff or 40) then
-				return
-			end
-			
 			dragging = true
 			dragStart = Input.Position
 			startPos = Instance.Position
