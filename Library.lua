@@ -166,8 +166,40 @@ function Library:CreateLabel(Properties, IsHud)
 	return Library:Create(_Instance, Properties)
 end
 
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+function Lerp(a, b, m)
+	return a + (b - a) * m
+end;
+
+local lastMousePos
+local lastGoalPos
+local DRAG_SPEED = (8); -- // The speed of the UI darg.
+function Update(dt, frame)
+	if not (startPos) then return end;
+	if not (dragging) and (lastGoalPos) then
+		frame.Position = UDim2.new(startPos.X.Scale, Lerp(frame.Position.X.Offset, lastGoalPos.X.Offset, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(frame.Position.Y.Offset, lastGoalPos.Y.Offset, dt * DRAG_SPEED))
+		return 
+	end;
+
+	local delta = (lastMousePos - UIS:GetMouseLocation())
+	local xGoal = (startPos.X.Offset - delta.X);
+	local yGoal = (startPos.Y.Offset - delta.Y);
+	lastGoalPos = UDim2.new(startPos.X.Scale, xGoal, startPos.Y.Scale, yGoal)
+	frame.Position = UDim2.new(startPos.X.Scale, Lerp(frame.Position.X.Offset, xGoal, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(frame.Position.Y.Offset, yGoal, dt * DRAG_SPEED))
+end;
+
 function Library:MakeDraggable(Instance, Cutoff)
 	Instance.Active = true
+	
+	task.spawn(function()
+		RunService.RenderStepped:Connect(function(dt)
+			Update(Instance, dt)
+		end)
+	end)
 
 	Instance.InputBegan:Connect(function(Input)
 		if Input.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -179,17 +211,17 @@ function Library:MakeDraggable(Instance, Cutoff)
 			if ObjPos.Y > (Cutoff or 40) then
 				return
 			end
-
-			while UIS:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
-				Instance.Position = UDim2.new(
-					0,
-					Mouse.X - ObjPos.X + (Instance.Size.X.Offset * Instance.AnchorPoint.X),
-					0,
-					Mouse.Y - ObjPos.Y + (Instance.Size.Y.Offset * Instance.AnchorPoint.Y)
-				);
-
-				RenderStepped:Wait()
-			end
+			
+			dragging = true
+			dragStart = Input.Position
+			startPos = Instance.Position
+			lastMousePos = UIS:GetMouseLocation()
+			
+			Input.Changed:Connect(function()
+				if Input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
 		end
 	end)
 end
