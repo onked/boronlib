@@ -2857,7 +2857,7 @@ function Library:Notify(Text, Time)
 	local NotifyInner = Library:Create('Frame', {
 		BackgroundColor3 = Library.MainColor;
 		BorderColor3 = Library.OutlineColor;
-		BorderMode = Enum.BorderMode.None;
+		BorderMode = Enum.BorderMode.Inset;
 		Size = UDim2.new(1, 0, 1, 0);
 		ZIndex = 101;
 		Parent = NotifyOuter;
