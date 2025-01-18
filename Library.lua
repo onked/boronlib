@@ -3574,6 +3574,7 @@ function Library:CreateWindow(...)
 	Library:GiveSignal(UIS.InputBegan:Connect(function(Input, Processed)	
 		if type(Library.ToggleKeybind) == 'table' and Library.ToggleKeybind.Type == 'KeyPicker' then
 			if Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode.Name == Library.ToggleKeybind.Value and not (Processed) then
+				if Processed then return end
 				task.spawn(Library.Toggle)
 			end
 		elseif Input.KeyCode == Enum.KeyCode.RightControl or (Input.KeyCode == Enum.KeyCode.RightShift and (not Processed)) then
