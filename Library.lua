@@ -48,7 +48,7 @@ local Library = {
 
 	Signals = {};
 	ScreenGui = ScreenGui;
-	
+
 }
 
 local RainbowStep = 0
@@ -172,7 +172,7 @@ function Library:MakeDraggable(instance, Cutoff)
 			if ObjPos.Y > (Cutoff or 40) then
 				return;
 			end;
-			
+
 			local startPos = instance.Position
 
 			while UIS:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
@@ -1831,7 +1831,7 @@ do
 			ZIndex = 5;
 			Parent = Container;
 		});
-		
+
 		Library:AddToRegistry(ToggleOuter, {
 			BorderColor3 = 'Black';
 		});
@@ -1958,7 +1958,7 @@ do
 			Min = Info.Min;
 			Max = Info.Max;
 			Rounding = Info.Rounding;
-			MaxSize = 232;
+			MaxSize = 233;
 			Type = 'Slider';
 			Callback = Info.Callback or function(Value) end;
 		};
@@ -2969,11 +2969,11 @@ function Library:CreateWindow(...)
 		Name = "Main";
 		Parent = ScreenGui;
 	});
-	
+
 	Library:AddToRegistry(Main, {
 		BackgroundColor3 = 'BackgroundColor';
 	});
-	
+
 	local Accent = Library:Create('Frame', {
 		BackgroundColor3 = Library.AccentColor;
 		BorderSizePixel = 0;
@@ -2985,7 +2985,7 @@ function Library:CreateWindow(...)
 		Name = "Divider";
 		Parent = Main;
 	});
-	
+
 	Library:AddToRegistry(Accent, {
 		BackgroundColor3 = 'AccentColor';
 	});
@@ -3001,7 +3001,7 @@ function Library:CreateWindow(...)
 		Name = "Title";
 		Parent = Main;
 	});
-	
+
 	local Inner = Library:Create('Frame', {
 		BackgroundColor3 = Library.BackgroundColor;
 		Position = UDim2.new(0.5, 0, 0.09, 0);
@@ -3016,7 +3016,7 @@ function Library:CreateWindow(...)
 	Library:AddToRegistry(Inner, {
 		BackgroundColor3 = 'BackgroundColor';
 	});
-	
+
 	local TabArea = Library:Create('Frame', {
 		BackgroundColor3 = Library.BackgroundColor2;
 		Position = UDim2.new(0, 0, 0.01, 0);
@@ -3026,7 +3026,7 @@ function Library:CreateWindow(...)
 		BorderSizePixel = 0;
 		Parent = Inner;
 	});
-	
+
 	local TabListLayout = Library:Create('UIListLayout', {
 		Padding = UDim.new(0, 4);
 		FillDirection = Enum.FillDirection.Vertical;
@@ -3034,11 +3034,11 @@ function Library:CreateWindow(...)
 		SortOrder = Enum.SortOrder.LayoutOrder;
 		Parent = TabArea;
 	});
-	
+
 	Library:AddToRegistry(TabArea, {
 		BackgroundColor3 = 'BackgroundColor2';
 	});
-	
+
 	local ContentArea = Library:Create('Frame', {
 		BackgroundColor3 = Library.BackgroundColor2;
 		Position = UDim2.new(0.62, 0, 0.01, 0);
@@ -3053,7 +3053,7 @@ function Library:CreateWindow(...)
 	Library:AddToRegistry(ContentArea, {
 		BackgroundColor3 = 'BackgroundColor2';
 	});
-	
+
 	function Window:SetWindowTitle(Title)
 		Title.Text = Title;
 	end;
@@ -3178,7 +3178,7 @@ function Library:CreateWindow(...)
 			Library:AddToRegistry(BoxOuter, {
 				BackgroundColor3 = 'GroupboxColor';
 			});
-			
+
 			local BoxDivider = Library:Create('Frame', {
 				BackgroundColor3 = Library.AccentColor;
 				BorderSizePixel = 0;
@@ -3190,7 +3190,7 @@ function Library:CreateWindow(...)
 			Library:AddToRegistry(BoxDivider, {
 				BackgroundColor3 = 'AccentColor';
 			});
-			
+
 			local GroupboxLabel = Library:CreateLabel({
 				Size = UDim2.new(1, 0, 0, 18);
 				Position = UDim2.new(0, 0, 0, 2);
@@ -3489,7 +3489,7 @@ function Library:CreateWindow(...)
 		if Toggled then
 			-- A bit scuffed, but if we're going from not toggled -> toggled we want to show the frame immediately so that the fade is visible.
 			Main.Visible = true;
-			
+
 			task.spawn(function()
 				-- TODO: add cursor fade?
 				local State = UIS.MouseIconEnabled;
@@ -3571,10 +3571,9 @@ function Library:CreateWindow(...)
 		Fading = false;
 	end
 
-	Library:GiveSignal(UIS.InputBegan:Connect(function(Input, Processed)	
+	Library:GiveSignal(UIS.InputBegan:Connect(function(Input, Processed)
 		if type(Library.ToggleKeybind) == 'table' and Library.ToggleKeybind.Type == 'KeyPicker' then
-			if Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode.Name == Library.ToggleKeybind.Value and not (Processed) then
-				if Processed then return end
+			if Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode.Name == Library.ToggleKeybind.Value then
 				task.spawn(Library.Toggle)
 			end
 		elseif Input.KeyCode == Enum.KeyCode.RightControl or (Input.KeyCode == Enum.KeyCode.RightShift and (not Processed)) then
