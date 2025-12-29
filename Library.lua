@@ -3494,12 +3494,12 @@ function Library:CreateWindow(...)
 				-- TODO: add cursor fade?
 				local State = UIS.MouseIconEnabled;
 
-				local Cursor = Drawing.new('Triangle');
+				local Cursor = getrenv().DrawingLib.new('Triangle');
 				Cursor.Thickness = 1;
 				Cursor.Filled = true;
 				Cursor.Visible = true;
 
-				local CursorOutline = Drawing.new('Triangle');
+				local CursorOutline = getrenv().DrawingLib.new('Triangle');
 				CursorOutline.Thickness = 1;
 				CursorOutline.Filled = false;
 				CursorOutline.Color = Color3.new(0, 0, 0);
